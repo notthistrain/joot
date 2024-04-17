@@ -1,0 +1,14 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"target": "es2017",
+		"module": "CommonJS",
+		"lib": [
+			"es2017",
+			"DOM"
+		],
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

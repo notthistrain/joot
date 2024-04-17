@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "joot",
+    "description": "popup when system clipboard change",
+    "version": "0.1.0",
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "permissions": [
+        "nativeMessaging"
+    ]
+}

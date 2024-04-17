@@ -4,7 +4,8 @@
         "jsx": "react",
         "types": [
             "vite/client",
-            "node"
+            "node",
+            "chrome"
         ],
         "allowJs": true,
         "strict": true,

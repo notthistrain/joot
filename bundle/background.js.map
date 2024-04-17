@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../crx/background/src/index.ts"],
+  "sourcesContent": ["(async () => {\n    const port = chrome.runtime.connectNative('com.joot')\n    console.log(\"start up\")\n    port.onMessage.addListener((message) => {\n        console.log(`message from native: `, message)\n    })\n    port.onDisconnect.addListener(() => {\n        console.log(`native port disconnect`)\n    })\n})()"],
+  "mappings": "CAAC,SAAY,CACT,IAAMA,EAAO,OAAO,QAAQ,cAAc,UAAU,EACpD,QAAQ,IAAI,UAAU,EACtBA,EAAK,UAAU,YAAaC,GAAY,CACpC,QAAQ,IAAI,wBAAyBA,CAAO,CAChD,CAAC,EACDD,EAAK,aAAa,YAAY,IAAM,CAChC,QAAQ,IAAI,wBAAwB,CACxC,CAAC,CACL,GAAG",
+  "names": ["port", "message"]
+}

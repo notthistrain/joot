@@ -1,4 +1,4 @@
+# pnpm-workspace.yaml
 packages:
-  - "packages/**"
-  - "crx/**"
-  - "clipboard"
+  - "packages/*"
+  - "crx/*"
