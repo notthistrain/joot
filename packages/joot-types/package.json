@@ -1,0 +1,11 @@
+{
+  "name": "joot-types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "background和popup共享类型",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "ISC"
+}

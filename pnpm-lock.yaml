@@ -50,9 +50,16 @@ importers:
       esbuild:
         specifier: ^0.20.2
         version: 0.20.2
+      joot-utils:
+        specifier: workspace:^
+        version: link:../../packages/joot-utils
       typescript:
         specifier: ^5.4.4
         version: 5.4.4
+
+  packages/joot-types: {}
+
+  packages/joot-utils: {}
 
 packages:
 

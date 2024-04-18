@@ -1,0 +1,11 @@
+{
+  "name": "joot-utils",
+  "version": "0.1.0",
+  "private": true,
+  "description": "background和popup共享工具函数",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "license": "ISC"
+}

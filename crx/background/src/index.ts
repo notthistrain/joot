@@ -1,10 +1,4 @@
-(async () => {
-    const port = chrome.runtime.connectNative('com.joot')
-    console.log("start up")
-    port.onMessage.addListener((message) => {
-        console.log(`message from native: `, message)
-    })
-    port.onDisconnect.addListener(() => {
-        console.log(`native port disconnect`)
-    })
-})()
+import { bootup_serial } from "joot-utils"
+import { initNativeMessagePort } from "./tasks"
+
+void bootup_serial([initNativeMessagePort])
