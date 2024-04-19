@@ -3,11 +3,21 @@
     "name": "joot",
     "description": "popup when system clipboard change",
     "version": "0.1.0",
+    "icons": {
+        "32": "icon32.png"
+    },
+    "action": {
+        "default_icon": {
+            "32": "icon32.png"
+        },
+        "default_popup": "popup.html"
+    },
     "background": {
         "service_worker": "background.js",
         "type": "module"
     },
     "permissions": [
-        "nativeMessaging"
+        "nativeMessaging",
+        "tts"
     ]
 }

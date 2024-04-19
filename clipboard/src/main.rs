@@ -10,7 +10,7 @@ use clipboard_rs::{
 use serde::Serialize;
 
 #[derive(Serialize)]
-enum MessageType {
+enum EClipboardFormat {
     Text,
     Image,
 }
@@ -18,7 +18,7 @@ enum MessageType {
 #[derive(Serialize)]
 struct Message<'a, T> {
     data: &'a T,
-    message_type: MessageType,
+    format: EClipboardFormat,
     total: u8,
     index: u8,
 }
@@ -27,10 +27,10 @@ impl<'a, T> Message<'a, T>
 where
     T: Serialize,
 {
-    fn new(data: &'a T, message_type: MessageType) -> Message<'a, T> {
+    fn new(data: &'a T, format: EClipboardFormat) -> Message<'a, T> {
         Message {
             data,
-            message_type,
+            format,
             total: 1,
             index: 1,
         }
@@ -40,42 +40,42 @@ where
     }
 }
 
-struct ClipboardRecord {
-    text: String,
-    image_rgb_size: u32,
-}
+// struct ClipboardRecord {
+//     text: String,
+//     image_rgb_size: u32,
+// }
 
-impl ClipboardRecord {
-    fn set_text(&mut self, string: &String) {
-        self.text = string.clone();
-    }
-}
+// impl ClipboardRecord {
+//     fn set_text(&mut self, string: &String) {
+//         self.text = string.clone();
+//     }
+// }
 
 struct Manager {
     ctx: ClipboardContext,
-    clipboard_record: ClipboardRecord,
+    // clipboard_record: ClipboardRecord,
 }
 
 impl Manager {
     pub fn new() -> Self {
         Manager {
             ctx: ClipboardContext::new().unwrap(),
-            clipboard_record: ClipboardRecord {
-                text: String::from(""),
-                image_rgb_size: 0,
-            },
+            // clipboard_record: ClipboardRecord {
+            //     text: String::from(""),
+            //     image_rgb_size: 0,
+            // },
         }
     }
 }
 
 impl ClipboardHandler for Manager {
     fn on_clipboard_change(&mut self) {
-        let text_handler = |text: String| Message::new(&text, MessageType::Text).send().ok();
+        let text_handler = |text: String| Message::new(&text, EClipboardFormat::Text).send().ok();
         self.ctx.get_text().map(text_handler).ok();
 
         let image_hanlder = |image_data: RustImageData| {
             image_data.to_png().map(|image_buf| {
-                Message::new(&(image_buf.get_bytes()), MessageType::Image)
+                Message::new(&(image_buf.get_bytes()), EClipboardFormat::Image)
                     .send()
                     .ok()
             })

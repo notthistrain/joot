@@ -1,8 +1,13 @@
 # Dependency directories
 node_modules/
+
+# bundle
 clipboard/target/
+bundle/
 
 # Logs
 logs
 *.log
 npm-debug.log*
+
+# lockfile

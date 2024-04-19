@@ -18,8 +18,8 @@
         "noImplicitAny": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitThis": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
         "noImplicitReturns": true,
         "noImplicitOverride": true,
         "esModuleInterop": true,
@@ -35,5 +35,8 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true
     },
-    "include": []
+    "include": [],
+    "exclude": [
+        "node_modules",
+    ]
 }

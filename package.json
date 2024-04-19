@@ -3,8 +3,8 @@
 	"version": "0.1.0",
 	"scripts": {
 		"build:clipboard": "cd clipboard && cargo build -r",
-		"build:crx": "pnpm -F background build && cp crx/manifest.json bundle/manifest.json",
-		"pack": "pnpm run build:crx && pnpm run build:clipboard"
+		"build:crx": "pnpm -F background build && pnpm -F popup build && cp assets/* bundle/",
+		"pack": "rm -rf bundle && pnpm run build:crx && pnpm run build:clipboard"
 	},
 	"devDependencies": {
 		"@hyrious/esbuild-dev": "^0.10.5",

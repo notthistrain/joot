@@ -1,14 +1,15 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"target": "es2017",
-		"module": "CommonJS",
+		"module": "ESNext",
 		"lib": [
 			"es2017",
-			"DOM"
+			"DOM",
+			"DOM.Iterable"
 		],
 	},
 	"include": [
-		"src/**/*.ts"
+		"src/**/*.ts",
+		"types/**/*.ts"
 	]
 }

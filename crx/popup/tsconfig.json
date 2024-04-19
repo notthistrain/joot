@@ -1,0 +1,16 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "lib": [
+            "DOM",
+            "ES2017",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "jsx": "react"
+    },
+    "include": [
+        "src/**/*.ts",
+        "types/**/*.ts"
+    ]
+}
