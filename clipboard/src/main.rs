@@ -4,7 +4,7 @@ use chrome_native_messaging::{send_message, Error};
 
 use clipboard_rs::{
     common::RustImage, Clipboard, ClipboardContext, ClipboardHandler, ClipboardWatcher,
-    ClipboardWatcherContext, RustImageData,
+    ClipboardWatcherContext,
 };
 
 use serde::Serialize;
@@ -40,47 +40,50 @@ where
     }
 }
 
-// struct ClipboardRecord {
-//     text: String,
-//     image_rgb_size: u32,
-// }
-
-// impl ClipboardRecord {
-//     fn set_text(&mut self, string: &String) {
-//         self.text = string.clone();
-//     }
-// }
+struct ClipboardRecord {
+    text: String,
+    image: Vec<u8>,
+}
 
 struct Manager {
     ctx: ClipboardContext,
-    // clipboard_record: ClipboardRecord,
+    clipboard_record: ClipboardRecord,
 }
 
 impl Manager {
     pub fn new() -> Self {
         Manager {
             ctx: ClipboardContext::new().unwrap(),
-            // clipboard_record: ClipboardRecord {
-            //     text: String::from(""),
-            //     image_rgb_size: 0,
-            // },
+            clipboard_record: ClipboardRecord {
+                text: String::from(""),
+                image: vec![],
+            },
         }
     }
 }
 
 impl ClipboardHandler for Manager {
     fn on_clipboard_change(&mut self) {
-        let text_handler = |text: String| Message::new(&text, EClipboardFormat::Text).send().ok();
-        self.ctx.get_text().map(text_handler).ok();
+        let clipboard_record = &mut self.clipboard_record;
 
-        let image_hanlder = |image_data: RustImageData| {
-            image_data.to_png().map(|image_buf| {
-                Message::new(&(image_buf.get_bytes()), EClipboardFormat::Image)
-                    .send()
-                    .ok()
-            })
+        if let Ok(text) = self.ctx.get_text() {
+            if clipboard_record.text != text {
+                Message::new(&text, EClipboardFormat::Text).send().ok();
+                clipboard_record.text = text;
+            };
         };
-        self.ctx.get_image().map(image_hanlder).ok();
+
+        if let Ok(image_data) = self.ctx.get_image() {
+            if let Ok(image) = image_data.to_png() {
+                let bytes = image.get_bytes();
+                if clipboard_record.image.len() != bytes.len() && clipboard_record.image != bytes {
+                    Message::new(&bytes, EClipboardFormat::Image).send().ok();
+                    clipboard_record.image.resize(bytes.len(), 0);
+                    // clipboard_record.image.clear();
+                    clipboard_record.image.copy_from_slice(&bytes);
+                };
+            };
+        };
     }
 }
 

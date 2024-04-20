@@ -4,10 +4,10 @@
         "source.fixAll.eslint": "explicit",
         "source.addMissingImports": "explicit"
     },
-    "i18n-ally.keystyle": "nested",
-    "i18n-ally.sourceLanguage": "zh-CN",
-    "i18n-ally.displayLanguage": "zh-CN",
-    "eslint.enable": true,
-    "eslint.format.enable": true,
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "rust-analyzer.checkOnSave": true,
+    "lldb.displayFormat": "auto",
+    "lldb.showDisassembly": "auto",
+    "lldb.dereferencePointers": true,
+    "lldb.consoleMode": "commands"
 }
