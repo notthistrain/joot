@@ -4,6 +4,7 @@ node_modules/
 # bundle
 clipboard/target/
 bundle/
+dist/
 
 # Logs
 logs

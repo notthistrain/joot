@@ -1,12 +1,14 @@
 html {
     font-size: 12px;
+    --font-size: 1rem;
+    --font-size-md: calc(var(--font-size) * 1);
 }
 
-body {
-    line-height: normal;
+html {
+    width: 800px;
+    height: 600px;
 }
 
-html,
 body,
 #root {
     width: 100%;

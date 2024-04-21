@@ -7,7 +7,15 @@
             "DOM.Iterable"
         ],
         "module": "ESNext",
-        "jsx": "react"
+        "jsx": "react",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+            "~/*": [
+                "../../*"
+            ]
+        }
     },
     "include": [
         "src/**/*.ts",

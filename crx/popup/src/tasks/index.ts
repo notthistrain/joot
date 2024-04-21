@@ -1,2 +1,2 @@
-export * from './initRender'
-export * from './initRuntimeMessage'
+export * from './init-render'
+export * from './init-runtime-message'

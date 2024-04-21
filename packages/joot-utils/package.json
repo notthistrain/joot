@@ -4,6 +4,7 @@
   "private": true,
   "description": "background和popup共享工具函数",
   "main": "src/index.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc"
   },

@@ -11,7 +11,7 @@ export type EJootAction = EBackgroundAction | EPopupAction
 export interface IChromeBaseMessage<T = undefined> {
     target: EJootTarget,
     action: EJootAction,
-    data: T
+    data?: T
 }
 
 type TChromeMessageData = any

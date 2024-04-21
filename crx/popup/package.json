@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "build": "vite build"
+    "build:dev": "cross-env NODE_ENV=development vite build",
+    "build": "cross-env NODE_ENV=production vite build"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,8 @@
     "@types/chrome": "^0.0.266",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.2.1",
     "joot-types": "workspace:^",
     "joot-utils": "workspace:^",
     "vite": "^5.2.9"
