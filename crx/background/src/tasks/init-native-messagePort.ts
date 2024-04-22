@@ -23,7 +23,7 @@ class JootRustAppMessagePort {
     private port: chrome.runtime.Port
 
     message_data_format?: EClipboardFormat
-    message_data_ref?: string
+    message_data_ref?: string | number[]
 
     constructor() {
         if (JootRustAppMessagePort.instance) {
@@ -55,15 +55,7 @@ class JootRustAppMessagePort {
     private handler = (msg: IRustAppMessage, _port: chrome.runtime.Port) => {
         console.log("receive native message")
         if (typeof msg === 'object') {
-            const { index, total, data: origin_data, format } = msg
-            let data: string
-            if (Array.isArray(origin_data)) {
-                const blob = new Blob([new Uint8Array(origin_data)], { type: 'image/png' })
-                const url = URL.createObjectURL(blob)
-                data = url
-            } else {
-                data = origin_data
-            }
+            const { index, total, data, format } = msg
             this.message_data_ref = data
             this.message_data_format = format
             try {

@@ -1,6 +1,7 @@
 import { exec } from "child_process"
 import { watch } from "chokidar"
 import { createServer } from "http"
+// import { HR_SERVER_PORT } from '../consts'
 
 const popup_dir = "crx/popup"
 const background_dir = "crx/background"
@@ -36,12 +37,12 @@ var sub_process
 
 function exec_build() {
     if (timer) clearTimeout(timer)
+    if (sub_process) {
+        sub_process.kill()
+        sub_process = undefined
+    }
     timer = setTimeout(() => {
         console.log("rebuild...")
-        if (sub_process) {
-            sub_process.kill()
-            sub_process = undefined
-        }
         sub_process = exec('pnpm run build:crx:dev', (error, stdout, stderr) => {
             if (error) {
                 console.error(`rebuild error`)
@@ -50,7 +51,7 @@ function exec_build() {
             console.log(`rebuild success`)
             if (_response) {
                 _response.write(`id: ${_id++}\n\nevent:message\n\ndata: reload\n\n`)
-                console.log('crx hmr server send reload...')
+                console.log('crx hr server send reload...')
             }
         })
         sub_process.on('close', () => {
@@ -80,7 +81,7 @@ watcher
                     response.end()
                     _response = null
                     clearInterval(_timer)
-                    console.log('crx hmr server client closed...')
+                    console.log('crx hr server client closed...')
                 })
                 _response = response
                 clearInterval(_timer)
@@ -89,7 +90,7 @@ watcher
                         _response.write(`id: ${_id++}\n\nevent: notice\n\n`)
                     }
                 }, 5000)
-                console.log('crx hmr server on client connection...')
+                console.log('crx hr server on client connection...')
             } else {
                 response.writeHead(404)
                 response.end()
@@ -97,7 +98,7 @@ watcher
         })
         _server.listen(7347)
         _server.addListener('listening', () => {
-            console.log('crx hmr server listening...')
+            console.log('crx hr server listening...')
         })
         exec_build()
     })

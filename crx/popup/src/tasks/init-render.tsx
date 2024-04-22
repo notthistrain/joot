@@ -1,7 +1,10 @@
+import "@/ui/css/styles.css"
 import React from 'react'
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { Root } from "@/ui/routes/root"
+import { ErrorRoute } from "@/ui/routes/error-route"
+import { Root, loader as RootLoader } from "@/ui/routes/root"
+import { ClipboardView, loader as ClipboardLoader } from "@/ui/routes/clipboard-view"
 
 export async function init_render() {
     const rootEl = document.getElementById('root')
@@ -11,7 +14,18 @@ export async function init_render() {
             path: '/',
             id: 'root',
             element: <Root />,
-            loader: async (...args) => (await import('../ui/routes/root')).loader(...args),
+            children: [
+                {
+                    path: 'clipboard-view',
+                    loader: ClipboardLoader,
+                    element: <ClipboardView />,
+                    errorElement: <ErrorRoute />
+                },
+            ]
+        },
+        {
+            index: true,
+            loader: RootLoader,
         }
     ])
 

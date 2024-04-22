@@ -1,0 +1,1 @@
+export const HR_SERVER_PORT = 7347

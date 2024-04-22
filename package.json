@@ -6,7 +6,7 @@
 		"build:clipboard": "cd clipboard && cargo build -r",
 		"build:crx": "pnpm -F background build && pnpm -F popup build && cp assets/* bundle/",
 		"build:crx:dev": "pnpm -F background build:dev && pnpm -F popup build:dev && cp assets/* bundle/",
-		"hmr:crx": "node scripts/watch.js",
+		"hr:crx": "node scripts/watch.js",
 		"pack": "rm -rf bundle && pnpm run build:crx && pnpm run build:clipboard"
 	},
 	"devDependencies": {

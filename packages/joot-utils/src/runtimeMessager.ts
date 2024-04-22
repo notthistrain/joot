@@ -11,6 +11,7 @@ export class RuntimeMessager {
         private readonly target: EJootTarget
     ) {
         chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+            console.log("received: ", msg)
             if (msg?.target === this.target && msg.action && this.handler_map.has(msg.action)) {
                 this.handler_map.get(msg.action)?.forEach(handler => handler(msg.data, sender, sendResponse))
             }

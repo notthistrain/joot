@@ -7,8 +7,17 @@
 			"DOM",
 			"DOM.Iterable"
 		],
+		"paths": {
+			"@/*": [
+				"./src/*"
+			],
+			"~/*": [
+				"../../*"
+			]
+		}
 	},
 	"include": [
+		"../../consts/**/*",
 		"src/**/*.ts",
 		"types/**/*.ts"
 	]

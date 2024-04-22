@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html {
     font-size: 12px;
     --font-size: 1rem;
@@ -18,10 +22,5 @@ body,
 body {
     margin: 0;
     padding: 0;
-}
-
-.app {
-    position: relative;
-    height: 100%;
-    width: 100%;
+    overflow: hidden;
 }

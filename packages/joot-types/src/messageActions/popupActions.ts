@@ -6,6 +6,6 @@ export enum EClipboardFormat {
 }
 
 export interface IClipboardDataPayload {
-    data: string,
+    data: string | number[],
     format: EClipboardFormat
 }
