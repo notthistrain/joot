@@ -5,7 +5,7 @@ import { useClipboardData } from '../hooks/use-clipboard-data'
 
 export const loader: LoaderFunction = async () => {
     const message: IChromeBaseMessage = {
-        action: "clipboard:getdata",
+        action: "clipboard:get-data",
         target: EJootTarget.Background
     }
     return await chrome.runtime.sendMessage(message)

@@ -77,15 +77,20 @@ class JootRustAppMessagePort {
 }
 
 const get_clipboard_data_handler: IChromeRuntimeMessageHandler = async function (
-    msg, sender, sendResponse
+    data, sender, sendResponse
 ) {
     const message_port = JootRustAppMessagePort.getInstance()
-    sendResponse({
-        format: message_port.message_data_format,
-        data: message_port.message_data_ref
-    })
+    if (message_port.message_data_format === undefined || message_port.message_data_ref === undefined) {
+        sendResponse()
+    } else {
+        const msg: IClipboardDataPayload = {
+            format: message_port.message_data_format!,
+            data: message_port.message_data_ref!
+        }
+        sendResponse(msg)
+    }
 }
-setAction("clipboard:getdata", get_clipboard_data_handler)
+setAction("clipboard:get-data", get_clipboard_data_handler)
 
 export function init_native_message_port() {
     const message_port = JootRustAppMessagePort.getInstance()

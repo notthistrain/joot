@@ -5,6 +5,7 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { ErrorRoute } from "@/ui/routes/error-route"
 import { Root, loader as RootLoader } from "@/ui/routes/root"
 import { ClipboardView, loader as ClipboardLoader } from "@/ui/routes/clipboard-view"
+import { ScreenshotView, loader as ScreenshotViewLoader } from "@/ui/routes/screenshot-view"
 
 export async function init_render() {
     const rootEl = document.getElementById('root')
@@ -21,6 +22,12 @@ export async function init_render() {
                     element: <ClipboardView />,
                     errorElement: <ErrorRoute />
                 },
+                {
+                    path: 'screenshot-view',
+                    loader: ScreenshotViewLoader,
+                    element: <ScreenshotView />,
+                    errorElement: <ErrorRoute />
+                }
             ]
         },
         {

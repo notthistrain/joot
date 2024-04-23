@@ -16,8 +16,35 @@
         "service_worker": "background.js",
         "type": "module"
     },
+    "content_scripts": [
+        {
+            "js": [
+                "content-script.js"
+            ],
+            "css": [
+                "content-script.css"
+            ],
+            "matches": [
+                "<all_urls>"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
     "permissions": [
         "nativeMessaging",
-        "tts"
+        "tts",
+        "tabs",
+        "windows",
+        "activeTab"
+    ],
+    "web_accessible_resources": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "resources": [
+                ""
+            ]
+        }
     ]
 }

@@ -1,0 +1,27 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "lib": [
+            "DOM",
+            "ES2017",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "jsx": "react",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+            "~/*": [
+                "../../*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "types/**/*.ts",
+        "tailwind.config.js",
+        "postcss.config.js",
+        "src/tasks/init-render.tsx"
+    ]
+}

@@ -69,6 +69,55 @@ importers:
         specifier: ^5.4.4
         version: 5.4.4
 
+  crx/content-script:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-router-dom:
+        specifier: ^6.22.3
+        version: 6.22.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+    devDependencies:
+      '@tailwindcss/typography':
+        specifier: ^0.5.12
+        version: 0.5.12(tailwindcss@3.4.3)
+      '@types/chrome':
+        specifier: ^0.0.266
+        version: 0.0.266
+      '@types/react':
+        specifier: ^18.2.79
+        version: 18.2.79
+      '@types/react-dom':
+        specifier: ^18.2.25
+        version: 18.2.25
+      '@types/react-router-dom':
+        specifier: ^5.3.3
+        version: 5.3.3
+      '@vitejs/plugin-react':
+        specifier: ^4.2.1
+        version: 4.2.1(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3))
+      autoprefixer:
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.38)
+      joot-types:
+        specifier: workspace:^
+        version: link:../../packages/joot-types
+      joot-utils:
+        specifier: workspace:^
+        version: link:../../packages/joot-utils
+      postcss:
+        specifier: ^8.4.38
+        version: 8.4.38
+      tailwindcss:
+        specifier: ^3.4.3
+        version: 3.4.3
+      vite:
+        specifier: ^5.2.9
+        version: 5.2.9(@types/node@20.12.7)(terser@5.30.3)
+
   crx/popup:
     dependencies:
       react:

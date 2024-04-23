@@ -1,4 +1,4 @@
-import { EBackgroundAction, EPopupAction } from "./messageActions"
+import { EBackgroundAction, EContentScriptAction, EPopupAction } from "./message-actions"
 
 export enum EJootTarget {
     Background = "Background",
@@ -6,7 +6,7 @@ export enum EJootTarget {
     ContentScript = "ContentScript"
 }
 
-export type EJootAction = EBackgroundAction | EPopupAction
+export type EJootAction = EBackgroundAction | EPopupAction | EContentScriptAction
 
 export interface IChromeBaseMessage<T = undefined> {
     target: EJootTarget,
@@ -22,4 +22,4 @@ interface IChromeMessageHandler<T> {
 
 export type IChromeRuntimeMessageHandler = IChromeMessageHandler<chrome.runtime.MessageSender>
 
-export * from "./messageActions"
+export * from "./message-actions"

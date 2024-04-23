@@ -3,8 +3,9 @@ import { watch } from "chokidar"
 import { createServer } from "http"
 // import { HR_SERVER_PORT } from '../consts'
 
-const popup_dir = "crx/popup"
 const background_dir = "crx/background"
+const content_script_dir = "crx/content-script"
+const popup_dir = "crx/popup"
 const joot_types_dir = "packages/joot-types"
 const joot_utils_dir = "packages/joot-utils"
 
@@ -12,12 +13,15 @@ const joot_utils_dir = "packages/joot-utils"
 const watcher = watch(
     [
         "assets/**/*",
+        `${background_dir}/src/**/*`,
+        `${background_dir}/types/**/*`,
         `${popup_dir}/popup.html`,
         `${popup_dir}/src/**/*`,
         `${popup_dir}/plugins/**/*`,
         `${popup_dir}/types/**/*`,
-        `${background_dir}/src/**/*`,
-        `${background_dir}/types/**/*`,
+        `${content_script_dir}/src/**/*`,
+        `${content_script_dir}/plugins/**/*`,
+        `${content_script_dir}/types/**/*`,
         `${joot_types_dir}/src/**/*`,
         `${joot_utils_dir}/src/**/*`
     ],
