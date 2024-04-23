@@ -8,7 +8,7 @@ const call_screenshot_handler: IChromeRuntimeMessageHandler = async (data, sende
             action: 'webpage:get-scroll-size',
             target: EJootTarget.ContentScript
         }
-        const payload: IScrollSizePayload = await chrome.tabs.sendMessage(tab?.id, msg)
+        // const payload: IScrollSizePayload = await chrome.tabs.sendMessage(tab?.id, msg)
         // const window = await chrome.windows.get(tab.windowId)
         // await chrome.windows.update(tab.windowId, { width: payload.width, height: payload.height })
         const data_url = await chrome.tabs.captureVisibleTab(tab.windowId)
