@@ -95,5 +95,5 @@ setAction("clipboard:get-data", get_clipboard_data_handler)
 export function init_native_message_port() {
     const message_port = JootRustAppMessagePort.getInstance()
     message_port.start()
-    globalThis.runtime_messager.add_listener(get_clipboard_data_handler)
+    globalThis.runtime_messager.add_listeners([get_clipboard_data_handler])
 }

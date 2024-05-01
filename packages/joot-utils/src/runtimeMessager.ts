@@ -18,6 +18,9 @@ export class RuntimeMessager {
             return true
         })
     }
+    add_listeners(handlers: Array<IChromeRuntimeMessageHandler>) {
+        handlers.forEach(handler => this.add_listener(handler))
+    }
     add_listener(handler: IChromeRuntimeMessageHandler) {
         const action = <EJootAction>handler.name
         const handlers = this.handler_map.get(action)
@@ -27,6 +30,9 @@ export class RuntimeMessager {
             this.handler_map.set(action, [handler])
         }
         return () => this.remove_listener(handler)
+    }
+    remove_listeners(handlers: Array<IChromeRuntimeMessageHandler>) {
+        handlers.forEach(handler => this.remove_listener(handler))
     }
     remove_listener(handler: IChromeRuntimeMessageHandler) {
         const action = <EJootAction>handler.name

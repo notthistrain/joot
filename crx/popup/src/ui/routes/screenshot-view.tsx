@@ -14,6 +14,6 @@ export const loader = async () => {
 export const ScreenshotView = () => {
     const data_url = useLoaderData() as (string | undefined)
     return <div className='screenshot-view w-full h-full flex justify-center items-center'>
-        <img src={data_url} alt="current tab screenshot" />
+        <img src={data_url} className='h-full' alt="current tab screenshot" />
     </div>
 }

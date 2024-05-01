@@ -7,7 +7,7 @@ export const loader = () => {
 
 export const Root = () => {
     return <div className="joot-app relative w-full h-full flex flex-row overflow-hidden">
-        <div className='workspace flex-1 h-full'>
+        <div className='workspace flex-1 h-full overflow-auto'>
             <Outlet />
         </div>
         <div className='menu flex-shrink-0 h-full w-40 flex flex-col border-solid border-black border-l-2 border-r-2'>

@@ -35,7 +35,8 @@
         "tts",
         "tabs",
         "windows",
-        "activeTab"
+        "activeTab",
+        "scripting"
     ],
     "web_accessible_resources": [
         {

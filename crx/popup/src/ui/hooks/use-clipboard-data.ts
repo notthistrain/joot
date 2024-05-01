@@ -7,7 +7,6 @@ export function useClipboardData(input?: IClipboardDataPayload) {
     useEffect(() => {
         const clipboard_change_handler: IChromeRuntimeMessageHandler = async (msg: IClipboardDataPayload) => setData(msg)
         setAction("clipboard:change", clipboard_change_handler)
-        globalThis.runtime_messager.add_listener(clipboard_change_handler)
         return globalThis.runtime_messager.add_listener(clipboard_change_handler)
     })
     return data

@@ -26,5 +26,5 @@ const TextView: FC<{ text: string }> = ({ text }) => {
 
 const ImageView: FC<{ array: number[] }> = ({ array }) => {
     const url = URL.createObjectURL(new Blob([new Uint8Array(array)], { type: 'image/png' }))
-    return <img src={url} alt="from clipboard" />
+    return <img src={url} className='h-full' alt="from clipboard" />
 }

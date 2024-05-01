@@ -38,5 +38,6 @@ export async function init_render() {
 
     if (rootEl) {
         createRoot(rootEl).render(<RouterProvider router={router} />)
+        console.log("render popup")
     }
 }
