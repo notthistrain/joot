@@ -1,1 +1,1 @@
-export type EBackgroundAction = "clipboard:get-data" | "screenshot:call"
+export type EBackgroundAction = "clipboard:get-data" | "screenshot:call" | "screenshot:get-data"

@@ -1,14 +1,18 @@
 import "@/ui/css/styles.css"
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { ErrorRoute } from "@/ui/routes/error-route"
 import { Root, loader as RootLoader } from "@/ui/routes/root"
-import { ClipboardView, loader as ClipboardLoader } from "@/ui/routes/clipboard-view"
-import { ScreenshotView, loader as ScreenshotViewLoader } from "@/ui/routes/screenshot-view"
+import { AppLoading } from "@/ui/components/app-loading"
+import { ErrorRoute } from "@/ui/routes/error-route"
+
+const ClipboardRoute = lazy(() => import("@/ui/routes/clipboard"))
+const ScreenshotRoute = lazy(() => import("@/ui/routes/screenshot"))
 
 export async function init_render() {
-    const rootEl = document.getElementById('root')
+    const rootEl = document.createElement('div')
+    rootEl.id = "root"
+    document.body.appendChild(rootEl)
 
     const router = createMemoryRouter([
         {
@@ -17,18 +21,27 @@ export async function init_render() {
             element: <Root />,
             children: [
                 {
-                    path: 'clipboard-view',
-                    loader: ClipboardLoader,
-                    element: <ClipboardView />,
+                    path: 'clipboard',
+                    loader: async (...args) => (await import("@/ui/routes/clipboard")).loader(...args),
+                    element: <Suspense fallback={<AppLoading />}>
+                        <ClipboardRoute />
+                    </Suspense>,
                     errorElement: <ErrorRoute />
                 },
                 {
-                    path: 'screenshot-view',
-                    loader: ScreenshotViewLoader,
-                    element: <ScreenshotView />,
+                    path: 'screenshot',
+                    loader: async (...args) => (await import("@/ui/routes/screenshot")).index_loader(...args),
+                    element: <Suspense fallback={<AppLoading />}>
+                        <ScreenshotRoute />
+                    </Suspense>,
                     errorElement: <ErrorRoute />
+                },
+                {
+                    path: 'screenshot-call',
+                    loader: async (...args) => (await import("@/ui/routes/screenshot")).dispatch_loader(...args)
                 }
-            ]
+            ],
+            errorElement: <ErrorRoute />
         },
         {
             index: true,
@@ -36,8 +49,9 @@ export async function init_render() {
         }
     ])
 
-    if (rootEl) {
-        createRoot(rootEl).render(<RouterProvider router={router} />)
-        console.log("render popup")
-    }
+    router.subscribe(({ location }) => {
+        globalThis.localStorage.setItem(`last-pathname`, location.pathname)
+    })
+
+    createRoot(rootEl).render(<RouterProvider router={router} />)
 }

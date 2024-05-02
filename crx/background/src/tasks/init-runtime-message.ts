@@ -11,6 +11,12 @@ const hide_scrollbar_css = `
 `
 
 let in_shot = false
+let data_url_cache = ""
+
+const get_screenshot_data_handler: IChromeRuntimeMessageHandler = async (data, sender, sendResponse) => {
+    sendResponse(data_url_cache)
+}
+setAction("screenshot:get-data", get_screenshot_data_handler)
 
 const call_screenshot_handler: IChromeRuntimeMessageHandler = async (data, sender, sendResponse) => {
     if (in_shot) {
@@ -20,6 +26,11 @@ const call_screenshot_handler: IChromeRuntimeMessageHandler = async (data, sende
     try {
         in_shot = true
         const tab = (await chrome.tabs.query({ active: true }))[0]
+        const get_scroll_size_msg: IChromeBaseMessage = {
+            action: 'webpage:get-scroll-size',
+            target: EJootTarget.ContentScript
+        }
+        const payload: IScrollSizePayload = await chrome.tabs.sendMessage(tab.id!, get_scroll_size_msg)
         const css_injection = {
             css: hide_scrollbar_css,
             target: {
@@ -27,11 +38,6 @@ const call_screenshot_handler: IChromeRuntimeMessageHandler = async (data, sende
             }
         }
         await chrome.scripting.insertCSS(css_injection)
-        const get_scroll_size_msg: IChromeBaseMessage = {
-            action: 'webpage:get-scroll-size',
-            target: EJootTarget.ContentScript
-        }
-        const payload: IScrollSizePayload = await chrome.tabs.sendMessage(tab.id!, get_scroll_size_msg)
         const { content_width, content_height, inner_width, inner_height, original_scroll_x, original_scroll_y } = payload
         const x_scroll_count = Math.ceil(content_width / inner_width)
         const y_scroll_count = Math.ceil(content_height / inner_height)
@@ -57,6 +63,7 @@ const call_screenshot_handler: IChromeRuntimeMessageHandler = async (data, sende
         await chrome.tabs.sendMessage(tab.id!, scroll_to_msg)
         chrome.scripting.removeCSS(css_injection)
         const data_url = await composeDataURL(payload, data_url_array)
+        data_url_cache = data_url
         sendResponse(data_url)
         in_shot = false
     } catch (error) {
@@ -70,5 +77,8 @@ setAction("screenshot:call", call_screenshot_handler)
 export async function init_runtime_message() {
     const runtime_messager = new RuntimeMessager(EJootTarget.Background)
     globalThis.runtime_messager = runtime_messager
-    globalThis.runtime_messager.add_listeners([call_screenshot_handler])
+    globalThis.runtime_messager.add_listeners([
+        call_screenshot_handler,
+        get_screenshot_data_handler
+    ])
 }
