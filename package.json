@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
+		"test": "jest --noStackTrace --silent",
 		"build:clipboard": "cd clipboard && cargo build -r",
 		"build:crx": "pnpm -F background build && pnpm -F popup build && pnpm -F content-script build && cp assets/* bundle/",
 		"build:crx:dev": "pnpm -F background build:dev && pnpm -F popup build:dev && pnpm -F content-script build:dev && cp assets/* bundle/",
