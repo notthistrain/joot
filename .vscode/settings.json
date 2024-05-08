@@ -5,6 +5,9 @@
         "source.addMissingImports": "explicit"
     },
     "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.tabSize": 4,
+    "editor.detectIndentation": true,
+    "explorer.compactFolders": false,
     "rust-analyzer.checkOnSave": true,
     "lldb.displayFormat": "auto",
     "lldb.showDisassembly": "auto",

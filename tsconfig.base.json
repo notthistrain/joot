@@ -6,7 +6,8 @@
             "vite/client",
             "node",
             "chrome",
-            "esbuild"
+            "esbuild",
+            "jest"
         ],
         "allowJs": true,
         "strict": true,

@@ -1,4 +1,13 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-    preset: 'ts-jest'
+const config = {
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    globals: {
+        "ts-jest": {
+            tsconfig: "<rootDir>/test/tsconfig.json",
+            useESM: true
+        }
+    }
 }
+
+export default config
