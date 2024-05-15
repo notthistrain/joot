@@ -1,6 +1,7 @@
 {
 	"name": "joot",
 	"version": "0.1.0",
+	"description": "浏览器插件，支持截屏和监听系统剪贴板，支持开发时热更新",
 	"type": "module",
 	"scripts": {
 		"test": "jest --noStackTrace --silent",
