@@ -1,4 +1,5 @@
 import { wait } from "joot-utils"
+import test from "node:test"
 
 describe("function", () => {
     test("new", () => {
@@ -58,7 +59,7 @@ describe("function", () => {
 describe("ajax", () => {
     test("xhr", () => {
         function xhr() {
-            return new Promise(resolve => {
+            return new Promise((resolve, reject) => {
                 const request = new XMLHttpRequest()
                 request.responseType = 'json'
                 request.setRequestHeader('Content-Type', 'application/json')
@@ -165,5 +166,37 @@ describe('promise', () => {
 
         await wait(100)
         expect(tag).toBe(3)
+    })
+})
+
+describe('algorithm', () => {
+    test('quick sort', () => {
+        const input = [3, 1, 2, 0, -1, 4, 0, -2]
+        const output = [-2, -1, 0, 0, 1, 2, 3, 4]
+
+        function swap(array: Array<number>, a: number, b: number) {
+            array[a] = array[a] ^ array[b]
+            array[b] = array[a] ^ array[b]
+            array[a] = array[a] ^ array[b]
+        }
+
+        function quick_sort(array: Array<number>, left: number, right: number) {
+            if (left >= right) return
+            let base = array[left]
+            let i = left, j = right
+            while (i < j) {
+                while (i < j && array[j] >= base) j--
+                while (i < j && array[i] <= base) i++
+                if (i < j) {
+                    swap(array, i, j)
+                }
+            }
+            swap(array, left, i)
+            quick_sort(array, left, i - 1)
+            quick_sort(array, i + 1, right)
+        }
+
+        quick_sort(input, 0, input.length - 1)
+        expect(input).toEqual(output)
     })
 })

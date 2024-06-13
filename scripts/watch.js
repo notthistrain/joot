@@ -9,72 +9,59 @@ const popup_dir = "crx/popup"
 const joot_types_dir = "packages/joot-types"
 const joot_utils_dir = "packages/joot-utils"
 
-
-const watcher = watch(
-    [
-        "assets/**/*",
-        `${background_dir}/src/**/*`,
-        `${background_dir}/types/**/*`,
-        `${popup_dir}/popup.html`,
-        `${popup_dir}/src/**/*`,
-        `${popup_dir}/plugins/**/*`,
-        `${popup_dir}/types/**/*`,
-        `${content_script_dir}/src/**/*`,
-        `${content_script_dir}/plugins/**/*`,
-        `${content_script_dir}/types/**/*`,
-        `${joot_types_dir}/src/**/*`,
-        `${joot_utils_dir}/src/**/*`
-    ],
+const options = [
     {
-        persistent: true,
-        ignoreInitial: true,
+        name: "assets | joot-type | joot-utils",
+        paths: [
+            "assets/**/*",
+            `${joot_types_dir}/src/**/*`,
+            `${joot_utils_dir}/src/**/*`
+        ],
+        cmd: "pnpm run build:dev'",
+        timer: undefined,
+        process: undefined
+    },
+    {
+        name: "background",
+        paths: [
+            `${background_dir}/src/**/*`,
+            `${background_dir}/types/**/*`
+        ],
+        cmd: "pnpm -F background build:dev",
+        timer: undefined,
+        process: undefined
+    },
+    {
+        name: "popup",
+        paths: [
+            `${popup_dir}/popup.html`,
+            `${popup_dir}/src/**/*`,
+            `${popup_dir}/types/**/*`
+        ],
+        cmd: "pnpm -F popup build:dev",
+        timer: undefined,
+        process: undefined
+    },
+    {
+        name: "content-script",
+        paths: [
+            `${content_script_dir}/src/**/*`,
+            `${content_script_dir}/types/**/*`
+        ],
+        cmd: "pnpm -F content-script build:dev",
+        timer: undefined,
+        process: undefined
     }
-)
+]
 
-let _server
-let _response
-let _timer
-let _id = 0
-
-let timer
-var sub_process
-
-function exec_build() {
-    if (timer) clearTimeout(timer)
-    if (sub_process) {
-        sub_process.kill()
-        sub_process = undefined
-    }
-    timer = setTimeout(() => {
-        console.log("rebuild...")
-        sub_process = exec('pnpm run build:crx:dev', (error, stdout, stderr) => {
-            if (error) {
-                console.error(`rebuild error`)
-                return
-            }
-            console.log(`rebuild success`)
-            if (_response) {
-                _response.write(`id: ${_id++}\n\nevent:message\n\ndata: reload\n\n`)
-                console.log('crx hr server send reload...')
-            }
-        })
-        sub_process.on('close', () => {
-            sub_process = undefined
-        })
-    }, 500)
-}
-
-watcher
-    .on('change', exec_build)
-    .on('unlink', exec_build)
-    .on('add', exec_build)
-    .on('unlinkDir', exec_build)
-    .on('addDir', exec_build)
-    .on('error', console.log)
-    .on('ready', () => {
-        console.log("watch ready")
-        _server = createServer((request, response) => {
-            if (request.url === '/reload' && !_response) {
+class ESServer {
+    id
+    response
+    timer
+    server
+    constructor() {
+        this.server = createServer((request, response) => {
+            if (request.url === '/reload' && !this.response) {
                 response.writeHead(200, {
                     'Content-Type': 'text/event-stream',
                     'Cache-Control': 'no-cache',
@@ -83,15 +70,15 @@ watcher
                 })
                 request.on('close', () => {
                     response.end()
-                    _response = null
-                    clearInterval(_timer)
+                    this.response = null
+                    clearInterval(this.timer)
                     console.log('crx hr server client closed...')
                 })
-                _response = response
-                clearInterval(_timer)
-                _timer = setInterval(() => {
-                    if (_response) {
-                        _response.write(`id: ${_id++}\n\nevent: notice\n\n`)
+                this.response = response
+                clearInterval(this.timer)
+                this.timer = setInterval(() => {
+                    if (this.response) {
+                        this.response.write(`id: ${this.id++}\n\nevent: notice\n\n`)
                     }
                 }, 5000)
                 console.log('crx hr server on client connection...')
@@ -100,9 +87,49 @@ watcher
                 response.end()
             }
         })
-        _server.listen(7347)
-        _server.addListener('listening', () => {
+        this.server.listen(7347)
+        this.server.addListener('listening', () => {
             console.log('crx hr server listening...')
         })
-        exec_build()
-    })
+    }
+    execReload(option) {
+        if (option.timer) clearTimeout(option.timer)
+        if (option.process) {
+            option.process.kill()
+            option.process = undefined
+        }
+        option.timer = setTimeout(() => {
+            console.log(`${option.name} rebuild...`)
+            option.process = exec(option.cmd, (error) => {
+                if (error) {
+                    console.error(`${option.name} rebuild error`)
+                    return
+                }
+                if (this.response) {
+                    this.response.write(`id: ${this.id++}\n\nevent:message\n\ndata: reload\n\n`)
+                    console.log('crx hr server send reload...')
+                }
+            })
+            option.process.on('close', () => {
+                option.process = undefined
+            })
+        }, 500)
+    }
+}
+
+const es_server = new ESServer()
+
+options.forEach((option) => {
+    const watcher = watch(option.paths, { persistent: true, ignoreInitial: true })
+    const handler = () => es_server.execReload(option)
+    watcher
+        .on('change', handler)
+        .on('unlink', handler)
+        .on('add', handler)
+        .on('unlinkDir', handler)
+        .on('addDir', handler)
+        .on('error', console.log)
+        .on('ready', () => {
+            console.log(`${option.name} watch ready`)
+        })
+})
